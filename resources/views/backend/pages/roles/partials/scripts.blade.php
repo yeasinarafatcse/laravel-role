@@ -18,5 +18,30 @@
         }else{
             classCheckBox.prop('checked',false);
         }
+        inplementAllChecked();
+   }
+
+   function checkSinglePermission(groupClassName, groupID, countTotalPermission){
+       const classCheckbox = $('.'+groupClassName+ ' input');
+       const groupIDCheckBox = $("#"+groupID);
+
+       //if there is any occurance where something is not selected then make selected = false
+       if($('.'+ groupClassName+' input:checked').length == countTotalPermission){
+        groupIDCheckBox.prop('checked', true);
+       }else{
+        groupIDCheckBox.prop('checked', false);  
+       }
+       inplementAllChecked();
+   }
+
+   function inplementAllChecked(){
+       const countPermissions = {{ count($all_permissions) }};
+       const countPermissoinGroups = {{ count($permission_groups) }};
+
+       if($('input[type="checkbox"]:checked').length >= (countPermissions + countPermissoinGroups)){
+           $("#checkPermissionAll").prop('checked', true);
+       }else{
+        $("#checkPermissionAll").prop('checked', false);
+       }
    }
 </script>

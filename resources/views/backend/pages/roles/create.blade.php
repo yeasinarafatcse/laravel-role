@@ -23,6 +23,7 @@ Role Create ~ Admin Panel
                             <h4 class="page-title pull-left">Create Roles</h4>
                             <ul class="breadcrumbs pull-left">
                                 <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                                <li><a href="{{ route('admin.roles.index') }}">All Roles</a></li>
                                 <li><span>Create Roles</span></li>
                             </ul>
                         </div>

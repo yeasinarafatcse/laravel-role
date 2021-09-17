@@ -44,6 +44,7 @@ Role Edit ~ Admin Panel
                                 <h4 class="header-title">Edit Role</h4>
                                 @include('backend.layouts.partials.messages')
                                 <form action="{{ route('admin.roles.update', $role->id) }}" method="post">
+                                    @method('PUT')
                                     @csrf
                                     <div class="form-group">
                                         <label for="name">Role Name</label>
@@ -54,7 +55,7 @@ Role Edit ~ Admin Panel
                                     <div class="form-group">
                                         <label for="name">Permissions</label>
                                         <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="checkPermissionAll" value="1">
+                                            <input type="checkbox" class="form-check-input" id="checkPermissionAll" value="1" {{ APP\User::roleHasPermissions($role, $all_permissions) ? 'checked' : '' }}>
                                             <label class="form-check-label" for="checkPermissionAll">All</label>
                                         </div>
                                     </div>
@@ -64,7 +65,7 @@ Role Edit ~ Admin Panel
                                         <div class="row">
                                             <div class="col-3">
                                                 <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="permissions[]" id="{{ $i }}Management" onclick="checkPermissionByGroup('role-{{ $i }}-management-checkbox',this)" {{ App\User::roleHasPermissions($role, $permissions) ? 'checked' : ''}} value="{{ $group->name }}">
+                                                    <input type="checkbox" class="form-check-input" name="permissions[]" id="{{ $i }}Management" onclick="checkPermissionByGroup('role-{{ $i }}-management-checkbox',this)" {{ App\User::roleHasPermissions($role, $all_permissions) ? 'checked' : ''}} value="{{ $group->name }}">
                                                     <label class="form-check-label" for="checkPermission">{{ $group->name }}</label>
                                                 </div>
                                             </div>
@@ -75,7 +76,7 @@ Role Edit ~ Admin Panel
                                             @endphp
                                             @foreach($permissions as $permission)
                                             <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="permissions[]" {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }} id="checkPermission{{ $permission->id }}" value="{{ $permission->name }}">
+                                                <input type="checkbox" class="form-check-input" onclick="checkSinglePermission('role-{{ $i }}-management-checkbox','{{ $i }}Management', {{ count($all_permissions)}})" name="permissions[]" {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }} id="checkPermission{{ $permission->id }}" value="{{ $permission->name }}">
                                                 <label class="form-check-label" for="checkPermission{{ $permission->id }}">{{ $permission->name }}</label>
                                             </div>
                                             @php $j++ @endphp

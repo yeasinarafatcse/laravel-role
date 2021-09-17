@@ -30,9 +30,9 @@ class RolesController extends Controller
     public function create()
     {
         
-        $permissions = Permission::all();
+        $all_permissions = Permission::all();
         $permission_groups = User::getpermissionGroups();
-        return view('backend.pages.roles.create', compact('permissions','permission_groups'));
+        return view('backend.pages.roles.create', compact('all_permissions','permission_groups'));
 
     }
 
@@ -84,9 +84,9 @@ class RolesController extends Controller
     public function edit($id)
     {
         $role = Role::findById($id);
-        $permissions = Permission::all();
+        $all_permissions = Permission::all();
         $permission_groups = User::getpermissionGroups();
-        return view('backend.pages.roles.edit', compact('role','permissions','permission_groups'));
+        return view('backend.pages.roles.edit', compact('role','all_permissions','permission_groups'));
     }
 
     /**
@@ -98,7 +98,24 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //Validation Data
+        $request->validate([
+            'name' => 'required|max:100'
+        ],[
+            'name.required' => 'Please give a role name'
+        ]);
+        //Process Data
+
+
+        $role = Role::findById($id);
+
+        $permissions = $request->input('permissions');
+
+        if(!empty($permissions)){
+            $role->syncPermissions($permissions);
+        }
+
+        return back();
     }
 
     /**

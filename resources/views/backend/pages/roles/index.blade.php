@@ -39,7 +39,12 @@ Role Page ~ Admin Panel
                     <div class="col-12 mt-5">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">Roles List</h4>
+                                <h4 class="header-title float-left">Roles List</h4>
+                                <p class="float-right mb-2">
+                                    <a class="btn btn-primary text-white" href="{{ route('admin.roles.create') }}">
+                                        Create New Roles
+                                    </a>
+                                </p>
                                 <div class="data-tables">
                                     <table id="dataTable" class="text-center">
                                         <thead class="bg-light text-capitalize">
